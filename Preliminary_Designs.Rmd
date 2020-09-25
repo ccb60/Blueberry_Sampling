@@ -1,0 +1,67 @@
+---
+title: "GRTS Sampling Design for BPC 20198 Sampling
+author:  Curtis C. Bohlen"
+Date:  September 24, 2020
+output:
+  word_document: default
+  pdf_document: default
+  html_notebook: default
+---
+
+#Load Libraries
+We are working here with spsurvey version 4.1.4, which was updated September
+15th, 2020.
+```{r}
+library(tidyverse)
+library(spsurvey)
+```
+
+# Set Random Seed
+To allow repetition of sampling design.  If you run this code right before
+generating a sample, the computer will generate the same sequence of random
+numbers, and thus the same sample.  If you forget, you'll get another (also
+perfectly valid) sample.
+```{r}
+set.seed(98765)
+```
+
+# Define a Simple Unstratified Design
+With a ten to one oversample.
+
+The sample is not drawn with regard to the Inspector Region. Information on the
+Inspector Region will be  added later in ArcGIS after the sample and oversample
+are drawn.
+```{r}
+SimpleDesign <- list(None=list(panel=c(PanelOne=50),
+                         seltype="Equal",
+                         over=500))
+```
+
+# Generate the  Spatial Sample
+```{r}
+SimpleSample <- grts(
+         SimpleDesign,                   # as defined above
+         DesignID="Pt",                  # Arbitrary string to start site codes
+         SiteBegin=1001,                 # number of first sample location
+         type.frame="area",              # Must be one of following: "finite",
+                                         #    "linear", or "area". Depends on the
+                                         #    dimensionality of the support.
+         src.frame="shapefile",          # Type of source of geographic data
+                                         #    defining the support. Can be
+                                         #   "shapefile", "sf.object",
+                                         #   "sp.object" or "att.frame"
+         
+         in.shape='GIS Source Files/Blubry23Final',    # path to shapefile
+         
+         maxlev=10,                      # maximum number of hierarchical levels to use
+         
+         out.shape="GIS Source Files/Blubry23RandomSD2",       # name your output shapefile
+)
+
+```
+# Check The Design
+```{r}
+dsgnsum(SimpleSample)
+
+```
+
