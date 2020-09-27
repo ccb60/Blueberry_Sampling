@@ -1,6 +1,6 @@
 ---
-title: "GRTS Sampling Design for BPC 20198 Sampling
-author:  Curtis C. Bohlen"
+title: GRTS Sampling Design for BPC 20198 Sampling
+author:  Curtis C. Bohlen
 Date:  September 24, 2020
 output:
   word_document: default
@@ -8,7 +8,21 @@ output:
   html_notebook: default
 ---
 
-#Load Libraries
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+<img
+  src="https://www.cascobayestuary.org/wp-content/uploads/2014/04/logo_sm.jpg"
+  style="position:absolute;top:10px;right:50px;" />
+  
+
+# Load Libraries  
 We are working here with spsurvey version 4.1.4, which was updated September
 15th, 2020.
 ```{r}
@@ -16,7 +30,7 @@ library(tidyverse)
 library(spsurvey)
 ```
 
-# Set Random Seed
+# Set Random Seed  
 To allow repetition of sampling design.  If you run this code right before
 generating a sample, the computer will generate the same sequence of random
 numbers, and thus the same sample.  If you forget, you'll get another (also
@@ -25,7 +39,7 @@ perfectly valid) sample.
 set.seed(98765)
 ```
 
-# Define a Simple Unstratified Design
+# Define a Simple Unstratified Design 
 With a ten to one oversample.
 
 The sample is not drawn with regard to the Inspector Region. Information on the
@@ -37,8 +51,22 @@ SimpleDesign <- list(None=list(panel=c(PanelOne=50),
                          over=500))
 ```
 
-# Generate the  Spatial Sample
+# Generate the Spatial Sample  
+## Generate Unique Filename
+Since we are going to re-run this sometimes when output already exists, we want
+to come up with a filename for the shapefile that won't conflict.
 ```{r}
+fn <- tempfile(pattern = "Blubry23RandomSD",
+               tmpdir = "GIS Source Files",
+               fileext = "")
+fn
+```
+
+## Run GRTS Sample
+This code generates pages of warnings.  They are not important for our purposes,
+so I suppressed them here in the Word Document.  If you run this file as an R
+markdown document, you will see them, and can evaluate them yourself.
+```{r warnings = FALSE}
 SimpleSample <- grts(
          SimpleDesign,                   # as defined above
          DesignID="Pt",                  # Arbitrary string to start site codes
@@ -55,11 +83,11 @@ SimpleSample <- grts(
          
          maxlev=10,                      # maximum number of hierarchical levels to use
          
-         out.shape="GIS Source Files/Blubry23RandomSD2",       # name your output shapefile
+         out.shape=fn,       # name your output shapefile
 )
 
 ```
-# Check The Design
+# Check The Design  
 ```{r}
 dsgnsum(SimpleSample)
 

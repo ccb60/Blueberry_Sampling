@@ -49,17 +49,20 @@ and the spsurvey package in R.
 >  Kincaid TM, Olsen AR, Weber MH (2020). spsurvey: Spatial Survey Design and
    Analysis. R package version 4.1.4. 
 
-Code for that step is provided in anb R markdown document and an output Word
+Code for that step is provided in an R markdown document and an output Word
 document.
 
 We then use GRTS to draw a random sample within of spatially balanced points
 from within that area.
 
-We return to GIS to reproject the spatial random sample, and produce a text file
-containing a list of sampling locations with both UTM and WGS 1984 coordinates.
+We return to GIS to reproject the spatial random sample to WGS 1984, and produce
+a text file containing a list of sampling locations with both UTM and WGS 1984
+coordinates.
 
-To save space in teh archive, we omit most GIS source iles and intermediate 
-files.  They are available by request.
+To save space in the archive, we omit most GIS  files. Any of the geospatial
+data is available upon request. The only geospatial data not readily available
+from public sources is the data on Maine BPC "Inspector Regions", which plays a
+relatively minor role in this analysis.
 
 
 
